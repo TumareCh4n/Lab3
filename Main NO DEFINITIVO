@@ -1,1 +1,61 @@
+class Game{
+       private String Name;
+       private String Category;
+       private int Price;
+       private int Quality;
 
+       Game(String Name,String Category,int Price,int Quality) {
+       this.Name = Name;
+       this.Category = Category;
+       this.Price = Price;
+       this.Quality = Quality;
+       }
+
+       public void SetName (String NewName) {
+       Name = NewName;
+       }
+       public void SetCategory (String NewCategory) {
+       Category = NewCategory;
+       }
+       public void SetPrice (int NewPrice) {
+       Price = NewPrice;
+       }
+       public void SetQuality (int NewQuality) {
+       Quality = NewQuality;
+       }
+
+       public String GetName() {
+       return Name;
+       }
+       public String GetCategory() {
+       return Category;
+       }
+       public int GetPrice() {
+       return Price;
+       }
+       public int GetQuality() {
+       return Quality;
+       }
+
+       public void PrintWeas() {
+       System.out.println("Name : " + Name);
+       System.out.println("Category : " + Category);
+       System.out.println("Price : " + Price);
+       System.out.println("Quality : " + Quality);
+       }};
+       
+       
+class Dataset{
+    private Arraylist<Game> Data;
+    private String SortedByAttribute;
+     Dataset( Arraylist<Game> Data, String SortedByAttribute) {
+         
+     }
+}
+
+public class Main
+{
+	public static void main(String[] args) {
+		System.out.println("Hello World");
+	}
+}
