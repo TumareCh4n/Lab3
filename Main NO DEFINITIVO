@@ -45,14 +45,20 @@ class Game{
        System.out.println("Category : " + Category);
        System.out.println("Price : " + Price);
        System.out.println("Quality : " + Quality);
-       }};
+       }
+};
        
        
 class Dataset{
-    private Arraylist<Game> Data;
+    private ArrayList<Game> Data;
     private String SortedByAttribute;
-     Dataset( Arraylist<Game> Data, String SortedByAttribute) {
-         
+     Dataset( ArrayList<Game> Data, String SortedByAttribute) {
+         this.Data = Data;
+         this.SortedByAttribute = SortedByAttribute;
+     }
+
+     getGamesByPrice(int price){
+        if(SortedByAttribute == "price")
      }
 }
 
@@ -62,3 +68,4 @@ public class Main
 		System.out.println("Hello World");
 	}
 }
+
