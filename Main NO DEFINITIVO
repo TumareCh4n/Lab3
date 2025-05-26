@@ -59,17 +59,141 @@ class Dataset{
          this.SortedByAttribute = SortedByAttribute;
      }
 
-     getGamesByPrice(int price){
-        if(SortedByAttribute == "price")
-     }
+    public ArrayList<Game> getGamesByPrice(int price){
+    ArrayList<Game> resultado = new ArrayList<>();
+    //en el caso de que se encuentre ordenado (busqueda binaria)
+    if(SortedByAttribute.equals("price")){
+        int minimo = 0;
+        int maximo = Data.size() - 1;
 
-     getGamesByPriceRange(int lowerPrice, int higherPrice){
+        while(minimo <= maximo){
+            int indice = minimo + (maximo - minimo) / 2;
+            int indiceprecio = Data.get(indice).GetPrice();
 
-     }
+            if(indiceprecio == price){
+                int i = indice;
+                while(i >= 0 && Data.get(i).GetPrice() == price){
+                    resultado.add(0, Data.get(i));
+                    i--;
+                }
 
-     getGamesByCategory(String category){
+                i = indice + 1;
+                while(i < Data.size() && Data.get(i).GetPrice() == price){
+                    resultado.add(Data.get(i));
+                    i++;
+                }
+                break;
+            }
+            else if(indiceprecio < price){
+                minimo = indice + 1;
+            }
+            else{
+                maximo = indice - 1;
+            }
+        }
+    }
+    else{
+        for(Game a : Data){
+            if(a.GetPrice() == price){
+                resultado.add(a);
+            }
+        }
+    }
 
-     }
+    return resultado;
+}
+
+    public ArrayList<Game> getGamesByPriceRange(int lowerPrice, int higherPrice){
+    ArrayList<Game> resultado = new ArrayList<>();
+
+    if(SortedByAttribute.equals("price")){
+        // búsqueda binaria modificada
+        int minimo = 0;
+        int maximo = Data.size() - 1;
+        int inicio = -1;
+
+        // buscamos el primer índice donde GetPrice() >= lowerPrice
+        while(minimo <= maximo){
+            int medio = minimo + (maximo - minimo) / 2;
+            int p = Data.get(medio).GetPrice();
+
+            if(p >= lowerPrice){
+                inicio = medio;
+                maximo = medio - 1;
+            } else {
+                minimo = medio + 1;
+            }
+        }
+
+        if(inicio != -1){
+            for(int i = inicio; i < Data.size(); i++){
+                int precio = Data.get(i).GetPrice();
+                if(precio > higherPrice){
+                    break;
+                }
+                resultado.add(Data.get(i));
+            }
+        }
+
+    } else {
+        // búsqueda lineal
+        for(Game a : Data){
+            int precio = a.GetPrice();
+            if(precio >= lowerPrice && precio <= higherPrice){
+                resultado.add(a);
+            }
+        }
+    }
+
+    return resultado;
+}
+
+    public ArrayList<Game> getGamesByCategory(String category){
+    ArrayList<Game> resultado = new ArrayList<>();
+
+    if(SortedByAttribute.equals("category")){
+        int minimo = 0;
+        int maximo = Data.size() - 1;
+
+        while(minimo <= maximo){
+            int indice = minimo + (maximo - minimo) / 2;
+            String cat = Data.get(indice).GetCategory();
+
+            int comparacion = cat.compareTo(category);
+
+            if(comparacion == 0){
+                int i = indice;
+                while(i >= 0 && Data.get(i).GetCategory().equals(category)){
+                    resultado.add(0, Data.get(i));
+                    i--;
+                }
+
+                i = indice + 1;
+                while(i < Data.size() && Data.get(i).GetCategory().equals(category)){
+                    resultado.add(Data.get(i));
+                    i++;
+                }
+
+                break;
+            }
+            else if(comparacion < 0){
+                minimo = indice + 1;
+            }
+            else{
+                maximo = indice - 1;
+            }
+        }
+    }
+    else{
+        for(Game g : Data){
+            if(g.GetCategory().equals(category)){
+                resultado.add(g);
+            }
+        }
+    }
+
+    return resultado;
+}
 
      getGamesByQuality(int quality){
 
