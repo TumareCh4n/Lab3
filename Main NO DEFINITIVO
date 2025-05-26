@@ -195,9 +195,50 @@ class Dataset{
     return resultado;
 }
 
-     getGamesByQuality(int quality){
+    public ArrayList<Game> getGamesByQuality(int quality){
+    ArrayList<Game> resultado = new ArrayList<>();
 
-     }
+    if(SortedByAttribute.equals("quality")){
+        int minimo = 0;
+        int maximo = Data.size() - 1;
+
+        while(minimo <= maximo){
+            int indice = minimo + (maximo - minimo) / 2;
+            int valor = Data.get(indice).GetQuality();
+
+            if(valor == quality){
+                int i = indice;
+                while(i >= 0 && Data.get(i).GetQuality() == quality){
+                    resultado.add(0, Data.get(i));
+                    i--;
+                }
+
+                i = indice + 1;
+                while(i < Data.size() && Data.get(i).GetQuality() == quality){
+                    resultado.add(Data.get(i));
+                    i++;
+                }
+
+                break;
+            }
+            else if(valor < quality){
+                minimo = indice + 1;
+            }
+            else{
+                maximo = indice - 1;
+            }
+        }
+    }
+    else{
+        for(Game g : Data){
+            if(g.GetQuality() == quality){
+                resultado.add(g);
+            }
+        }
+    }
+
+    return resultado;
+}
 
      sortByAlgorithm(String algorithm , string attribute){
 
