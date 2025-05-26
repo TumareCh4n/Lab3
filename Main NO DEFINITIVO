@@ -52,6 +52,8 @@ class Game{
 class Dataset{
     private ArrayList<Game> Data;
     private String SortedByAttribute;
+
+
      Dataset( ArrayList<Game> Data, String SortedByAttribute) {
          this.Data = Data;
          this.SortedByAttribute = SortedByAttribute;
@@ -60,6 +62,40 @@ class Dataset{
      getGamesByPrice(int price){
         if(SortedByAttribute == "price")
      }
+
+     getGamesByPriceRange(int lowerPrice, int higherPrice){
+
+     }
+
+     getGamesByCategory(String category){
+
+     }
+
+     getGamesByQuality(int quality){
+
+     }
+
+     sortByAlgorithm(String algorithm , string attribute){
+
+     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 public class Main
