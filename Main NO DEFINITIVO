@@ -240,9 +240,40 @@ class Dataset{
     return resultado;
 }
 
-     sortByAlgorithm(String algorithm , string attribute){
+//faltarian metodos auxiliares aqui, para hacer funcionar este mismo
+public void sortByAlgorithm(String algorithm, String attribute) {
+    Comparator<Game> comparator;
 
-     }
+    // Elegir atributo
+    if (attribute.equalsIgnoreCase("price")) {
+        comparator = Comparator.comparingInt(Game::GetPrice);
+    } else if (attribute.equalsIgnoreCase("category")) {
+        comparator = Comparator.comparing(Game::GetCategory);
+    } else if (attribute.equalsIgnoreCase("quality")) {
+        comparator = Comparator.comparingInt(Game::GetQuality);
+    } else {
+        comparator = Comparator.comparingInt(Game::GetPrice); // Por defecto
+        attribute = "price";
+    }
+
+    // Elegir algoritmo
+    if (algorithm.equalsIgnoreCase("bubblesort")) {
+        bubbleSort(comparator);
+    } else if (algorithm.equalsIgnoreCase("insertionsort")) {
+        insertionSort(comparator);
+    } else if (algorithm.equalsIgnoreCase("selectionsort")) {
+        selectionSort(comparator);
+    } else if (algorithm.equalsIgnoreCase("mergesort")) {
+        data = mergeSort(data, comparator);
+    } else if (algorithm.equalsIgnoreCase("quicksort")) {
+        quickSort(0, data.size() - 1, comparator);
+    } else {
+        Collections.sort(data, comparator); // Default si no se reconoce
+    }
+
+    sortedByAttribute = attribute;
+}
+
 
 
 
@@ -269,4 +300,3 @@ public class Main
 		System.out.println("Hello World");
 	}
 }
-
