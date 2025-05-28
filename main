@@ -41,10 +41,10 @@ class Game{
        }
 
        public void PrintWeas() {
-       System.out.println("Name : " + Name);
-       System.out.println("Category : " + Category);
-       System.out.println("Price : " + Price);
-       System.out.println("Quality : " + Quality);
+       System.out.println("Nombre : " + Name);
+       System.out.println("Categoría : " + Category);
+       System.out.println("Precio : " + Price);
+       System.out.println("Calidad : " + Quality);
        }
 };
 
@@ -364,8 +364,107 @@ class Sorts {
     }
 }
 
-public class Main{
-	public static void main(String[] args) {
-		System.out.println("Hello World");
-	}
+class GenerateData{
+    public static ArrayList<Game> generate(int Cuanto) {
+        String[] PapuTitulos = {"Pokemon", "Zelda", "Mario", "Amorous", "Dante from the devil may cry series", "Dragon's Balls", "Undertale", "Smash Ultimate", "Fortinaiti", "GTA VII", "Dark Souls" };
+        String[] Conectores = {"Vs", "Ft", "Contra", "y", "en"};
+        String[] PapuGeneros = {"Acción", "Aventura", "Sandbox", "Estrategia", "Plataformero", "Roguelike", "DarkSouls Like", "JRPG"};
+            ArrayList<Game> ListaPapuJuegos = new ArrayList<>();
+            Random rand = new Random();
+
+    for (int i = 0; i<Cuanto ; i++){
+        String Nombre = PapuTitulos[rand.nextInt(PapuTitulos.length)] + " "+ Conectores[rand.nextInt(Conectores.length)] + " "+ PapuTitulos[rand.nextInt(PapuTitulos.length)];
+        String Genero = PapuGeneros[rand.nextInt(PapuGeneros.length)];
+        int Precio = rand.nextInt(7000)*10 ;
+        int Calidad = rand.nextInt(101);
+        ListaPapuJuegos.add(new Game(Nombre, Genero, Precio, Calidad));
+        }
+        return ListaPapuJuegos;
+    }
 }
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Game> games = GenerateData.generate(10); // Por ahora o lo dejamos en 10 o morimos los 2 documentando esto
+        Dataset dataset = new Dataset(games, "none");
+
+        String option = "";
+
+        System.out.println("=== Bienvenido al Sistema de Gestión de Juegos ===");
+
+        while (!option.equals("7")) {
+            System.out.println("\nMenú Principal:");
+            System.out.println("1. Ordenar juegos por atributo");
+            System.out.println("2. Buscar juegos por precio");
+            System.out.println("3. Buscar juegos por rango de precios");
+            System.out.println("4. Buscar juegos por categoría");
+            System.out.println("5. Buscar juegos por calidad");
+            System.out.println("6. Mostrar todos los juegos");
+            System.out.println("7. Salir");
+            System.out.print("Seleccione una opción: ");
+
+            option = scanner.nextLine();
+
+            switch (option) {
+                case "1":
+                    System.out.print("Algoritmo (bubbleSort, insertionSort, selectionSort, mergeSort, quickSort): ");
+                    String algorithm = scanner.nextLine();
+                    System.out.print("Atributo (price, category, quality): ");
+                    String attribute = scanner.nextLine();
+                    dataset.sortByAlgorithm(algorithm, attribute);
+                    System.out.println("Juegos ordenados correctamente.");
+                    break;
+
+                case "2":
+                    System.out.print("Precio exacto a buscar: ");
+                    int price = Integer.parseInt(scanner.nextLine());
+                    ArrayList<Game> byPrice = dataset.getGamesByPrice(price);
+                    byPrice.forEach(Game::PrintWeas);
+                    break;
+
+                case "3":
+                    System.out.print("Precio mínimo: ");
+                    int min = Integer.parseInt(scanner.nextLine());
+                    System.out.print("Precio máximo: ");
+                    int max = Integer.parseInt(scanner.nextLine());
+                    ArrayList<Game> byRange = dataset.getGamesByPriceRange(min, max);
+                    byRange.forEach(Game::PrintWeas);
+                    break;
+
+                case "4":
+                    System.out.print("Categoría a buscar: ");
+                    String category = scanner.nextLine();
+                    ArrayList<Game> byCategory = dataset.getGamesByCategory(category);
+                    byCategory.forEach(Game::PrintWeas);
+                    break;
+
+                case "5":
+                    System.out.print("Calidad a buscar (0-100): ");
+                    int quality = Integer.parseInt(scanner.nextLine());
+                    ArrayList<Game> byQuality = dataset.getGamesByQuality(quality);
+                    byQuality.forEach(Game::PrintWeas);
+                    break;
+
+                case "6":
+                    System.out.println("--- Lista de Juegos ---");
+                    for (Game g : games) {
+                        g.PrintWeas();
+                        System.out.println("-----------------------");
+                    }
+                    break;
+
+                case "7":
+                    System.out.println("Saliendo del sistema. ¡Hasta pronto!");
+                    break;
+
+                default:
+                    System.out.println("Opción no válida. Intente nuevamente.");
+            }
+        }
+
+        scanner.close();
+    }
+}
+
+
