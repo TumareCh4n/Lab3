@@ -47,8 +47,7 @@ class Game{
        System.out.println("Quality : " + Quality);
        }
 };
-       
-       
+
 class Dataset{
     private ArrayList<Game> Data;
     private String SortedByAttribute;
@@ -240,11 +239,9 @@ class Dataset{
     return resultado;
 }
 
-//faltarian metodos auxiliares aqui, para hacer funcionar este mismo
-public void sortByAlgorithm(String algorithm, String attribute) {
+    public void sortByAlgorithm(String algorithm, String attribute) {
     Comparator<Game> comparator;
 
-    // Elegir atributo
     if (attribute.equalsIgnoreCase("price")) {
         comparator = Comparator.comparingInt(Game::GetPrice);
     } else if (attribute.equalsIgnoreCase("category")) {
@@ -252,50 +249,122 @@ public void sortByAlgorithm(String algorithm, String attribute) {
     } else if (attribute.equalsIgnoreCase("quality")) {
         comparator = Comparator.comparingInt(Game::GetQuality);
     } else {
-        comparator = Comparator.comparingInt(Game::GetPrice); // Por defecto
+        comparator = Comparator.comparingInt(Game::GetPrice); // por defecto
         attribute = "price";
     }
 
-    // Elegir algoritmo
-    if (algorithm.equalsIgnoreCase("bubblesort")) {
-        bubbleSort(comparator);
-    } else if (algorithm.equalsIgnoreCase("insertionsort")) {
-        insertionSort(comparator);
-    } else if (algorithm.equalsIgnoreCase("selectionsort")) {
-        selectionSort(comparator);
-    } else if (algorithm.equalsIgnoreCase("mergesort")) {
-        data = mergeSort(data, comparator);
-    } else if (algorithm.equalsIgnoreCase("quicksort")) {
-        quickSort(0, data.size() - 1, comparator);
-    } else {
-        Collections.sort(data, comparator); // Default si no se reconoce
+    switch (algorithm.toLowerCase()) {
+        case "bubblesort":
+            Sorts.bubbleSort(Data, comparator);
+            break;
+        case "insertionsort":
+            Sorts.insertionSort(Data, comparator);
+            break;
+        case "selectionsort":
+            Sorts.selectionSort(Data, comparator);
+            break;
+        case "mergesort":
+            Data = Sorts.mergeSort(Data, comparator);
+            break;
+        case "quicksort":
+            Sorts.quickSort(Data, 0, Data.size() - 1, comparator);
+            break;
+        default:
+            Collections.sort(Data, comparator);
     }
 
-    sortedByAttribute = attribute;
+    SortedByAttribute = attribute;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
 
-public class Main
-{
+class Sorts {
+
+    public static void bubbleSort(ArrayList<Game> data, Comparator<Game> comparator) {
+        for (int i = 0; i < data.size() - 1; i++) {
+            for (int j = 0; j < data.size() - i - 1; j++) {
+                if (comparator.compare(data.get(j), data.get(j + 1)) > 0) {
+                    Collections.swap(data, j, j + 1);
+                }
+            }
+        }
+    }
+
+    public static void insertionSort(ArrayList<Game> data, Comparator<Game> comparator) {
+        for (int i = 1; i < data.size(); i++) {
+            Game key = data.get(i);
+            int j = i - 1;
+            while (j >= 0 && comparator.compare(data.get(j), key) > 0) {
+                data.set(j + 1, data.get(j));
+                j--;
+            }
+            data.set(j + 1, key);
+        }
+    }
+
+    public static void selectionSort(ArrayList<Game> data, Comparator<Game> comparator) {
+        for (int i = 0; i < data.size() - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < data.size(); j++) {
+                if (comparator.compare(data.get(j), data.get(minIndex)) < 0) {
+                    minIndex = j;
+                }
+            }
+            Collections.swap(data, i, minIndex);
+        }
+    }
+
+    public static ArrayList<Game> mergeSort(ArrayList<Game> list, Comparator<Game> comparator) {
+        if (list.size() <= 1) return list;
+
+        int mid = list.size() / 2;
+        ArrayList<Game> left = new ArrayList<>(list.subList(0, mid));
+        ArrayList<Game> right = new ArrayList<>(list.subList(mid, list.size()));
+
+        return merge(mergeSort(left, comparator), mergeSort(right, comparator), comparator);
+    }
+
+    private static ArrayList<Game> merge(ArrayList<Game> left, ArrayList<Game> right, Comparator<Game> comparator) {
+        ArrayList<Game> result = new ArrayList<>();
+        int i = 0, j = 0;
+
+        while (i < left.size() && j < right.size()) {
+            if (comparator.compare(left.get(i), right.get(j)) <= 0) {
+                result.add(left.get(i++));
+            } else {
+                result.add(right.get(j++));
+            }
+        }
+
+        while (i < left.size()) result.add(left.get(i++));
+        while (j < right.size()) result.add(right.get(j++));
+        return result;
+    }
+
+    public static void quickSort(ArrayList<Game> data, int low, int high, Comparator<Game> comparator) {
+        if (low < high) {
+            int pi = partition(data, low, high, comparator);
+            quickSort(data, low, pi - 1, comparator);
+            quickSort(data, pi + 1, high, comparator);
+        }
+    }
+
+    private static int partition(ArrayList<Game> data, int low, int high, Comparator<Game> comparator) {
+        Game pivot = data.get(high);
+        int i = low - 1;
+        for (int j = low; j < high; j++) {
+            if (comparator.compare(data.get(j), pivot) <= 0) {
+                i++;
+                Collections.swap(data, i, j);
+            }
+        }
+        Collections.swap(data, i + 1, high);
+        return i + 1;
+    }
+}
+
+public class Main{
 	public static void main(String[] args) {
 		System.out.println("Hello World");
 	}
