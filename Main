@@ -366,7 +366,7 @@ class Sorts {
 
 class GenerateData{
     public static ArrayList<Game> generate(int Cuanto) {
-        String[] PapuTitulos = {"Pokemon", "Zelda", "Mario", "31 minutos", "Dante from the devil may cry series", "Dragon's Balls", "Undertale", "Smash Ultimate", "Fortinaiti", "GTA VII", "Dark Souls", "Omori", "The Binding Of Isaac", "DeltaForce", "Team Fortress 2", "Hatsune Miku"};
+        String[] PapuTitulos = {"Pokemon", "Zelda", "Mario", "31 minutos", "Dante from the devil may cry series", "Dragon Ball", "Undertale", "Smash Ultimate", "Fortinaiti", "GTA VII", "Dark Souls", "Omori", "The Binding Of Isaac", "DeltaForce", "Team Fortress 2", "Hatsune Miku"};
         String[] Conectores = {"Vs", "Ft", "Contra", "y", "en", "Featuring"};
         String[] PapuGeneros = {"Acción", "Aventura", "Sandbox", "Estrategia", "Plataformero", "Roguelike", "DarkSouls Like", "JRPG", "Gore"};
             ArrayList<Game> ListaPapuJuegos = new ArrayList<>();
